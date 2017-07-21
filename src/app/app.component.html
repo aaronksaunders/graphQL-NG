@@ -6,9 +6,18 @@
     </div>
   </pre>
   <form #heroForm="ngForm">
-    <input type="text" [(ngModel)]="model.first_name" name="first_name" />
-    <input type="text" [(ngModel)]="model.last_name" name="last_name" />
+    <div>
+      First Name
+      <input type="text" [(ngModel)]="model.first_name" name="first_name" />
+    </div>
+    <div>
+      Last Name
+      <input type="text" [(ngModel)]="model.last_name" name="last_name" />
+    </div>
+    <div>
+      Email
     <input type="text" [(ngModel)]="model.email" name="email" />
+    </div>
     <button (click)="addUserClicked(field)">ADD</button>
   </form>
 </div>
