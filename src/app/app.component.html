@@ -5,6 +5,10 @@
       {{ user | json }}
     </div>
   </pre>
-  <input type="text" #field />
-  <button (click)="addUserClicked(field)">ADD</button>
+  <form #heroForm="ngForm">
+    <input type="text" [(ngModel)]="model.first_name" name="first_name" />
+    <input type="text" [(ngModel)]="model.last_name" name="last_name" />
+    <input type="text" [(ngModel)]="model.email" name="email" />
+    <button (click)="addUserClicked(field)">ADD</button>
+  </form>
 </div>

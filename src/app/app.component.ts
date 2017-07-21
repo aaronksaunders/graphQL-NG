@@ -29,6 +29,7 @@ const addUser = gql`
 
 export class AppComponent {
   title = 'app';
+  model = {};
   allUsers: ApolloQueryObservable<any>;
 
   constructor(private apollo : Apollo) {}
@@ -40,20 +41,16 @@ export class AppComponent {
   }
 
   addUserClicked(_data) {
-    console.log(_data.value)
+    console.log(this.model)
 
     this.apollo.mutate({
       mutation: addUser,
-      variables : {
-        first_name : _data.value,
-        last_name : "Saunders",
-        email : "a@mail.com"
-      }
+      variables : this.model
     }).subscribe(({ data }) => {
       console.log('got data', data);
 
       this.allUsers.refetch();
-      
+
     },(error) => {
       console.log('there was an error sending the query', error);
     });
