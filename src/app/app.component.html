@@ -1,23 +1,31 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div>
-  <pre>
-    <div *ngFor="let user of allUsers | async | select : 'allUsers'">
-      {{ user | json }}
-    </div>
-  </pre>
-  <form #heroForm="ngForm">
-    <div>
-      First Name
-      <input type="text" [(ngModel)]="model.first_name" name="first_name" />
-    </div>
-    <div>
-      Last Name
-      <input type="text" [(ngModel)]="model.last_name" name="last_name" />
-    </div>
-    <div>
-      Email
-    <input type="text" [(ngModel)]="model.email" name="email" />
-    </div>
-    <button (click)="addUserClicked(field)">ADD</button>
-  </form>
+  <ul class="collection">
+    <li class="collection-item" *ngFor="let user of allUsers | async | select : 'allUsers'">
+      <div>{{ user.first_name }} &nbsp; {{user.last_name}}
+        <a> <i class="material-icons right" (click)="deleteUser(user.id)">delete</i></a>
+      </div>
+    </li>
+  </ul>
+  <div class="row">
+    <form #userForm="ngForm" class="col s8">
+      <div class="input-field col s8">
+        <label for="first_name"> First Name </label>
+        <input type="text" required [(ngModel)]="model.first_name" name="first_name" id="first_name" />
+      </div>
+      <div class="input-field col s8">
+        <label for="last_name"> Last Name</label>
+        <input type="text" required [(ngModel)]="model.last_name" name="last_name" id="last_name" />
+      </div>
+      <div class="input-field col s8">
+        <label for="email"> Email Address </label>
+        <input type="email" [(ngModel)]="model.email" name="email" id="email" email/>
+      </div>
+      <div class="input-field col s8">
+        <button class="waves-effect waves-light btn" (click)="addUserClicked()" [disabled]="!userForm.valid">ADD</button>
+      </div>
+    </form>
+  </div>
+  {{userForm.value | json}}
+  <pre>{{userForm.valid | json}}</pre>
 </div>

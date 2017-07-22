@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Apollo, ApolloQueryObservable} from 'apollo-angular';
+import { Component, OnInit } from '@angular/core';
+import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import gql from 'graphql-tag';
 
-const AllUsers = gql `
+const AllUsers = gql`
   query AllUsers {
     allUsers {
       id
@@ -16,6 +16,14 @@ const AllUsers = gql `
 const addUser = gql`
   mutation addUser($first_name:String!, $last_name:String!, $email:String!) {
     addUser(first_name: $first_name, last_name: $last_name, email: $email) {
+      id
+    }
+  }
+`;
+
+const deleteUser = gql`
+  mutation deleteUser( $id : String! ) {
+    deleteUser(id:$id) {
       id
     }
   }
@@ -38,16 +46,33 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.allUsers = this
       .apollo
-      .watchQuery({query: AllUsers});
+      .watchQuery({ query: AllUsers });
   }
 
-  addUserClicked(_data) {
+  deleteUser(_id) {
+    console.log(_id);
+
+    this.apollo.mutate({
+      mutation: deleteUser,
+      variables: { id: _id }
+    }).subscribe(({ data }) => {
+      console.log('got data', data);
+
+      this.allUsers.refetch();
+
+    }, (error) => {
+      console.log('there was an error sending the query', error);
+    });
+  }
+
+
+  addUserClicked() {
     console.log(this.model);
 
     this.apollo.mutate({
       mutation: addUser,
       variables: this.model
-    }).subscribe(({data}) => {
+    }).subscribe(({ data }) => {
       console.log('got data', data);
 
       this.allUsers.refetch();
