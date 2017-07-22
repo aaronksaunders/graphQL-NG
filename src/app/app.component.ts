@@ -22,36 +22,37 @@ const addUser = gql`
 `;
 
 @Component({
-  selector: 'app-root', 
-  templateUrl: './app.component.html', 
+  selector: 'app-root',
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
   model = {};
   allUsers: ApolloQueryObservable<any>;
 
-  constructor(private apollo : Apollo) {}
+  constructor(private apollo: Apollo) {
+  }
 
   ngOnInit() {
     this.allUsers = this
       .apollo
-      .watchQuery({query: AllUsers}) ;
+      .watchQuery({query: AllUsers});
   }
 
   addUserClicked(_data) {
-    console.log(this.model)
+    console.log(this.model);
 
     this.apollo.mutate({
       mutation: addUser,
-      variables : this.model
-    }).subscribe(({ data }) => {
+      variables: this.model
+    }).subscribe(({data}) => {
       console.log('got data', data);
 
       this.allUsers.refetch();
 
-    },(error) => {
+    }, (error) => {
       console.log('there was an error sending the query', error);
     });
   }

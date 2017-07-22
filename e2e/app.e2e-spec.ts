@@ -1,14 +1,14 @@
-import { GraphQLNGPage } from './app.po';
+import { GraphQlngPage } from './app.po';
 
-describe('graph-qlng App', () => {
-  let page: GraphQLNGPage;
+describe('graph-qlng App', function() {
+  let page: GraphQlngPage;
 
   beforeEach(() => {
-    page = new GraphQLNGPage();
+    page = new GraphQlngPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });
