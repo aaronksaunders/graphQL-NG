@@ -25,6 +25,10 @@
         <button class="waves-effect waves-light btn" (click)="addUserClicked()" [disabled]="!userForm.valid">ADD</button>
       </div>
     </form>
+    <div>
+      FILE UPLOAD TEST
+       <input type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..." name="uploadedFile" />
+    </div>
   </div>
   {{userForm.value | json}}
   <pre>{{userForm.valid | json}}</pre>

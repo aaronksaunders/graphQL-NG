@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, ApolloQueryObservable } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { usingFetchDirectly } from './utils'
 
 const AllUsers = gql`
   query AllUsers {
@@ -28,6 +29,16 @@ const deleteUser = gql`
     }
   }
 `;
+
+const uploadFile = gql`
+  mutation uploadFile( $originalname : String!, $image : String ) {
+    uploadFile(originalname:$originalname, image:$image) {
+      filename
+      originalname
+      destination
+    }
+  }
+`
 
 @Component({
   selector: 'app-root',
@@ -80,5 +91,39 @@ export class AppComponent implements OnInit {
     }, (error) => {
       console.log('there was an error sending the query', error);
     });
+  }
+
+
+  /**
+   * 
+   * 
+   * @param {any} _args 
+   * @memberof AppComponent
+   */
+  fileChangeEvent(_args) {
+    if (_args.target.files && _args.target.files[0]) {
+
+      let files = _args.target.files;
+
+      //utils.usingFetchDirectly(files, uploadFile)
+
+      console.log(files[0])
+      this.apollo.mutate({
+        mutation: uploadFile,
+        variables: {
+          // add the file object to the request thru variables
+          file: files[0],
+          originalname: files[0].name
+        }
+      }).subscribe(({ data }) => {
+        console.log('got data', data);
+
+        //this.allUsers.refetch();
+
+      }, (error) => {
+        console.log('there was an error sending the query', error);
+      });
+
+    }
   }
 }
